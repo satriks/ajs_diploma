@@ -63,6 +63,7 @@ export default class AvailablePosition {
     const range = this.classAttackRange[classType];
     const row = Math.floor(currentPosition / 8);
     const column = currentPosition % 8;
+    this.availablePositionToAttack = []
     // console.log(row, column);
 
     const topLeft = [row - range, column - range].map((el) => {
