@@ -67,3 +67,7 @@ export function calcHealthLevel(health) {
 
   return 'high';
 }
+
+export function getTooltip(char) {
+  return `🎖${char.level} ⚔${char.attack} 🛡${char.defence} ❤${char.health}`;
+}

@@ -12,5 +12,8 @@
  * ```
  * */
 export default class Team {
+  constructor(heroes) {
+    this.characters = [...heroes];
+  }
   // TODO: write your logic here
 }

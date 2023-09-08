@@ -1,4 +1,6 @@
-import { calcTileType } from '../utils';
+import { calcTileType, getTooltip } from '../utils';
+import Swordsman from '../characters/Swordsman';
+import { characterGenerator } from '../generators';
 
 test('test calcTileType out of range', () => {
   expect(() => calcTileType(88, 8)).toThrow(Error);
@@ -22,3 +24,8 @@ test.each([
     expect(calcTileType(index, size)).toBe(place);
   },
 );
+
+test('test tooltip', () => {
+  const hero = characterGenerator([Swordsman], 1).next().value;
+  expect(getTooltip(hero)).toEqual('🎖1 ⚔40 🛡10 ❤50');
+});
