@@ -1,5 +1,5 @@
 {
-  "name": "lesson9_1",
+  "name": "Retro Game",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -32,6 +32,7 @@
     "husky": "^8.0.3",
     "jest": "^29.6.2",
     "mini-css-extract-plugin": "^2.7.6",
+    "standard": "^17.1.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"

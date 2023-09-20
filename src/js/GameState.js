@@ -1,6 +1,14 @@
 export default class GameState {
   constructor() {
-    this.tern = 0;
+    this.counter = 0;
+    this.levelName = {
+      0: 'prairie',
+      1: 'desert',
+      2: 'arctic',
+      3: 'mountain',
+    };
+    this.tern = null;
+    // prairie -> desert -> arctic -> mountain
   }
 
   static from(object) {
@@ -9,7 +17,7 @@ export default class GameState {
   }
 
   getTern() {
-    this.tern += 1;
-    return this.tern % 2 ? 'player' : 'ai';
+    this.counter += 1;
+    return this.counter % 2 ? this.tern = 'player' : this.tern = 'ai';
   }
 }

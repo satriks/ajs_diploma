@@ -35,7 +35,6 @@ export default class AvailablePosition {
     const row = Math.floor(currentPosition / 8);
     const column = currentPosition % 8;
     this.availablePositionToMove = [];
-    // console.log(row, column);
 
     for (let i = -range; i <= range; i += 1) {
       if (column + i >= 0 && column + i < 8) {
@@ -63,8 +62,7 @@ export default class AvailablePosition {
     const range = this.classAttackRange[classType];
     const row = Math.floor(currentPosition / 8);
     const column = currentPosition % 8;
-    this.availablePositionToAttack = []
-    // console.log(row, column);
+    this.availablePositionToAttack = [];
 
     const topLeft = [row - range, column - range].map((el) => {
       if (el < 0) { return 0; }

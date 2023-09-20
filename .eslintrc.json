@@ -9,6 +9,7 @@
       "ecmaVersion": 13
     },
     "rules": {
+      "max-len": ["error",{  "code": 140,  "ignorePattern": "^import"}],
       "no-restricted-syntax": [
         "error",
         "LabeledStatement",

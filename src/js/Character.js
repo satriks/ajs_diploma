@@ -17,6 +17,7 @@ export default class Character {
     // if (level < 1 || level > 4) {
     //   throw new Error('Error level')
     // }
+
     this.level = level;
     this.attack = 0;
     this.defence = 0;
@@ -26,6 +27,26 @@ export default class Character {
     if (new.target === Character) {
       throw new Error('error class');
     }
-    // TODO: выбросите исключение, если кто-то использует "new Character()"
   }
+
+  checkLevel() {
+    if (this.level > 1) {
+      for (let i = 1; i <= this.level; i += 1) {
+        this.levelUp();
+      }
+    }
+  }
+
+  levelUp() {
+    this.health += 80;
+    if (this.health >= 100) {
+      this.health = 100;
+    }
+    this.attack = Math.max(this.attack, (this.attack * (80 + this.health)) / 100);
+    this.defence = Math.max(this.defence, (this.defence * (80 + this.health)) / 100);
+
+    // attackAfter = Math.max(attackBefore, attackBefore * (80 + life) / 100)
+  }
+
+  // TODO: выбросите исключение, если кто-то использует "new Character()"
 }
