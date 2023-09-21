@@ -178,11 +178,11 @@ export default class GamePlay {
   }
 
   static showError(message) {
-    alert(message);
+    alert(message); // eslint-disable-line
   }
 
   static showMessage(message) {
-    alert(message);
+    alert(message); // eslint-disable-line
   }
 
   selectCell(index, color = 'yellow') {

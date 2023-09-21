@@ -17,7 +17,7 @@ module.exports = {
       { test: /\.txt$/, use: 'raw-loader' },
       { test: /\.css$/i, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
       {
-        test: /\.(png|jpg|gif)$/i, dependency: { not: ['url'] }, use: [{ loader: 'url-loader', options: { limit: 8192 } }], type: 'javascript/auto',
+        test: /\.(png|jpg|gif)$/i, dependency: { not: ['url'] }, use: [{ loader: 'url-loader', options: { limit: 8192 } }], type: 'javascript/auto',  // eslint-disable-line
       },
     ],
   },

@@ -14,10 +14,6 @@ export default class AI {
     this.#updateStatusTeam(team);
     this.getAvailableAttack();
 
-    // test
-    // this.getAvailableMove()
-    //
-
     this.demagelist = this.demagelist.sort((a, b) => b[1] - a[1]);
     if (this.demagelist.length > 0) {
       return { data: this.demagelist[0], type: 'attack' };
@@ -42,10 +38,6 @@ export default class AI {
         const demage = Math.max(badHero.character.attack - goodHero.character.defence, badHero.character.attack * 0.1);
         this.demagelist.push([goodHero.position, demage]);
       });
-    //   const target = heros.map((goodHero) => {
-    //     const demage = Math.max(badHero.character.attack - goodHero.character.defence, badHero.character.attack * 0.1);
-    //     this.demagelist.push([goodHero.position, demage]);
-    //   });
     });
   }
 
@@ -62,13 +54,3 @@ export default class AI {
     return [];
   }
 }
-
-/*
-    варианты атак ( индексы)
-        если нет (торандом движение из возможных)
-1 . расщитать атаку ( по этим индексам)
-    выбрать самую большую
-    передать данные
-2.
-3.
-*/

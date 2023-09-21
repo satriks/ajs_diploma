@@ -11,13 +11,16 @@ export default class GameState {
     // prairie -> desert -> arctic -> mountain
   }
 
+  /* eslint-disable */
   static from(object) {
     // TODO: create object
     return null;
   }
 
+  /* eslint-enable */
   getTern() {
     this.counter += 1;
-    return this.counter % 2 ? this.tern = 'player' : this.tern = 'ai';
+    this.counter % 2 ? this.tern = 'player' : this.tern = 'ai'; // eslint-disable-line
+    return this.tern;
   }
 }

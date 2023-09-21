@@ -74,7 +74,6 @@ export default class AvailablePosition {
       if (el > 7) { return 7; }
       return el;
     });
-    // console.log(topLeft, bottomRight);
     for (let i = topLeft[0]; i <= bottomRight[0]; i += 1) {
       for (let j = topLeft[1]; j <= bottomRight[1]; j += 1) {
         this.availablePositionToAttack.push(this.matrix[i][j]);
@@ -82,7 +81,6 @@ export default class AvailablePosition {
     }
 
     this.availablePositionToAttack = this.availablePositionToAttack.filter((el) => el !== currentPosition);
-    // console.log(this.availablePositionToAttack);
     return this.availablePositionToAttack;
   }
 }

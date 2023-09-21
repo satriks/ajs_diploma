@@ -14,10 +14,6 @@
  */
 export default class Character {
   constructor(level, type = 'generic') {
-    // if (level < 1 || level > 4) {
-    //   throw new Error('Error level')
-    // }
-
     this.level = level;
     this.attack = 0;
     this.defence = 0;
@@ -44,8 +40,6 @@ export default class Character {
     }
     this.attack = Math.max(this.attack, (this.attack * (80 + this.health)) / 100);
     this.defence = Math.max(this.defence, (this.defence * (80 + this.health)) / 100);
-
-    // attackAfter = Math.max(attackBefore, attackBefore * (80 + life) / 100)
   }
 
   // TODO: выбросите исключение, если кто-то использует "new Character()"
