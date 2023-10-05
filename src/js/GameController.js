@@ -9,15 +9,15 @@ import { generateTeam } from './generators';
 import PositionedCharacter from './PositionedCharacter';
 import { getTooltip } from './utils';
 import cursor from './cursors';
-import AvailablePosition from './AvaliblePosition';
+import AvailablePosition from './AvailablePosition';
 import AI from './AiModule';
 import GameState from './GameState';
 
 export default class GameController {
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
-    this.gameState = new GameState();
     this.stateService = stateService;
+    this.gameState = new GameState();
     this.currentCharactersPosition = [];
     this.charSelected = null;
     this.availablePosition = new AvailablePosition();
@@ -80,7 +80,7 @@ export default class GameController {
               })
               .then(() => {
                 this.gamePlay.redrawPositions(this.currentCharactersPosition);
-                this.enemyTern();
+                this.enemyTurn();
               });
           } else { GamePlay.showError('Это не персонаж игрока'); }
         }
@@ -92,7 +92,7 @@ export default class GameController {
 
         this.gamePlay.redrawPositions(this.currentCharactersPosition);
         this.charSelected = null;
-        this.enemyTern();
+        this.enemyTurn();
       }
     }
   }
@@ -147,18 +147,18 @@ export default class GameController {
     }
   }
   /* eslint-disable */
-  getRandoomPosition(arr, count) {
+  getRandomPosition(arr, count) {
     const res = [];
-    const avaliblePos = [];
+    const availablePos = [];
 
     for (const ind of arr) {
       for (let i = 0; i < 8; i += 1) {
-        avaliblePos.push((i * 8) + ind);
+        availablePos.push((i * 8) + ind);
       }
     }
     for (let j = 0; j < count; j += 1) {
-      const index = Math.floor(Math.random() * avaliblePos.length);
-      res.push(Math.floor(avaliblePos.splice(index, 1)));
+      const index = Math.floor(Math.random() * availablePos.length);
+      res.push(Math.floor(availablePos.splice(index, 1)));
     }
     return res;
   }
@@ -170,7 +170,7 @@ export default class GameController {
     let evilPosition = [];
 
     while (evilPosition.length !== 3) {
-      evilPosition = this.getRandoomPosition([6, 7], 3);
+      evilPosition = this.getRandomPosition([6, 7], 3);
       const blockPosition = this.currentCharactersPosition.map((el) => el.position);
       evilPosition = evilPosition.filter((el) => !blockPosition.includes(el));
     }
@@ -182,7 +182,7 @@ export default class GameController {
   getGoodTeam() {
     const goodHeroes = [Swordsman, Magician, Bowman];
     const goodTeam = generateTeam(goodHeroes, 4, 3);
-    const goodPosition = this.getRandoomPosition([0, 1], 3);
+    const goodPosition = this.getRandomPosition([0, 1], 3);
     const goodTeamPositions = goodTeam.characters.map((el) => new PositionedCharacter(el, goodPosition.pop()));
     return goodTeamPositions;
   }
@@ -208,8 +208,8 @@ export default class GameController {
         }
         const attackAfter = Math.max(hero.character.attack, (hero.character.attack * (80 + hero.character.health)) / 100);
         hero.character.attack = attackAfter;
-        const defencekAfter = Math.max(hero.character.defence, (hero.character.defence * (80 + hero.character.health)) / 100);
-        hero.character.defence = defencekAfter;
+        const defenseAfter = Math.max(hero.character.defence, (hero.character.defence * (80 + hero.character.health)) / 100);
+        hero.character.defence = defenseAfter;
       }
     });
   }
@@ -238,13 +238,13 @@ export default class GameController {
     this.gamePlay.redrawPositions(this.currentCharactersPosition);
   }
 
-  enemyTern() {
+  enemyTurn() {
     this.checkTeam();
     if (this.gameStatus !== 'stop') {
       // ход противника
-      const tern = this.ai.tern(this.currentCharactersPosition);
-      if (tern.type === 'attack') {
-        const [index, damage] = [...tern.data];
+      const turn = this.ai.turn(this.currentCharactersPosition);
+      if (turn.type === 'attack') {
+        const [index, damage] = [...turn.data];
         this.gamePlay.showDamage(index, damage)
           .then(() => {
             const target = this.currentCharactersPosition.filter((el) => el.position === index);
@@ -257,10 +257,10 @@ export default class GameController {
           })
           .then(() => { this.gamePlay.redrawPositions(this.currentCharactersPosition); });
       }
-      if (tern.type === 'move') {
-        const [charm] = this.currentCharactersPosition.filter((el) => el === tern.data[1]);
+      if (turn.type === 'move') {
+        const [charm] = this.currentCharactersPosition.filter((el) => el === turn.data[1]);
         // eslint-disable-next-line
-        charm.position = tern.data[0];
+        charm.position = turn.data[0];
         this.gamePlay.redrawPositions(this.currentCharactersPosition);
         this.updateTeam();
       }
@@ -292,21 +292,21 @@ export default class GameController {
 
   onLoadGame() {
     try {
-      const datas = this.stateService.load();
+      const data = this.stateService.load();
 
       this.gamePlay.cellClickListeners = [];
       this.gamePlay.cellEnterListeners = [];
       this.gamePlay.cellLeaveListeners = [];
       this.gamePlay.newGameListeners = [];
 
-      this.currentCharactersPosition = datas.currentCharactersPosition;
-      this.evilTeam = datas.evilTeam;
-      this.goodTeam = datas.goodTeam;
-      this.charSelected = datas.charSelected;
-      this.positionToMove = datas.positionToMove;
-      this.positionToAttack = datas.positionToAttack;
-      this.level = datas.level;
-      this.gameStatus = datas.gameStatus;
+      this.currentCharactersPosition = data.currentCharactersPosition;
+      this.evilTeam = data.evilTeam;
+      this.goodTeam = data.goodTeam;
+      this.charSelected = data.charSelected;
+      this.positionToMove = data.positionToMove;
+      this.positionToAttack = data.positionToAttack;
+      this.level = data.level;
+      this.gameStatus = data.gameStatus;
 
       this.init();
     } catch (err) {

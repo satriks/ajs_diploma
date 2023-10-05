@@ -7,7 +7,7 @@ export default class GameState {
       2: 'arctic',
       3: 'mountain',
     };
-    this.tern = null;
+    this.turn = null;
     // prairie -> desert -> arctic -> mountain
   }
 
@@ -18,9 +18,9 @@ export default class GameState {
   }
 
   /* eslint-enable */
-  getTern() {
+  getTurn() {
     this.counter += 1;
-    this.counter % 2 ? this.tern = 'player' : this.tern = 'ai'; // eslint-disable-line
-    return this.tern;
+    this.counter % 2 ? this.turn = 'player' : this.turn = 'ai'; // eslint-disable-line
+    return this.turn;
   }
 }

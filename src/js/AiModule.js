@@ -1,4 +1,4 @@
-import AvailablePosition from './AvaliblePosition';
+import AvailablePosition from './AvailablePosition';
 
 export default class AI {
   constructor() {
@@ -7,16 +7,16 @@ export default class AI {
     this.evilTeam = null;
 
     this.available = new AvailablePosition();
-    this.demagelist = [];
+    this.damageList = [];
   }
 
-  tern(team) {
+  turn(team) {
     this.#updateStatusTeam(team);
     this.getAvailableAttack();
 
-    this.demagelist = this.demagelist.sort((a, b) => b[1] - a[1]);
-    if (this.demagelist.length > 0) {
-      return { data: this.demagelist[0], type: 'attack' };
+    this.damageList.sort((a, b) => b[1] - a[1]);
+    if (this.damageList.length > 0) {
+      return { data: this.damageList[0], type: 'attack' };
     }
     return { data: this.getAvailableMove(), type: 'move' };
   }
@@ -30,18 +30,18 @@ export default class AI {
 
   // получение вариантов атаки
   getAvailableAttack() {
-    this.demagelist = [];
+    this.damageList = [];
     this.evilTeam.forEach((badHero) => {
       const agr = this.available.getAttackPosition(badHero.position, badHero.character.type);
       const heros = this.goodTeam.filter((el) => agr.includes(el.position));
       heros.forEach((goodHero) => {
-        const demage = Math.max(badHero.character.attack - goodHero.character.defence, badHero.character.attack * 0.1);
-        this.demagelist.push([goodHero.position, demage]);
+        const damage = Math.max(badHero.character.attack - goodHero.character.defence, badHero.character.attack * 0.1);
+        this.damageList.push([goodHero.position, damage]);
       });
     });
   }
 
-  // варианты перемещеиня
+  // варианты перемещения
   getAvailableMove() {
     if (this.evilTeam.length > 0) {
       const indexChar = Math.floor(Math.random() * this.evilTeam.length);

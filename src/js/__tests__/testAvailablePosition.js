@@ -1,4 +1,4 @@
-import AvailablePosition from '../AvaliblePosition';
+import AvailablePosition from '../AvailablePosition';
 
 test.each([
   ['swordsman', 21],
