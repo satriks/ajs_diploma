@@ -26,6 +26,7 @@ export default class GameController {
     this.ai = new AI();
     this.level = 0;
     this.gameStatus = 'play';
+    this.tets = '4242' // тест
   }
 
   init() {
