@@ -1,6 +1,7 @@
 export default class GameState {
   constructor() {
     this.counter = 0;
+    this.level = 0
     this.levelName = {
       0: 'prairie',
       1: 'desert',
@@ -22,5 +23,8 @@ export default class GameState {
     this.counter += 1;
     this.counter % 2 ? this.turn = 'player' : this.turn = 'ai'; // eslint-disable-line
     return this.turn;
+  }
+  getLevel(){
+    return this.levelName[this.level]
   }
 }

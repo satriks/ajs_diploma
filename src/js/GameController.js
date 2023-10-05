@@ -24,13 +24,12 @@ export default class GameController {
     this.positionToMove = null;
     this.positionToAttack = null;
     this.ai = new AI();
-    this.level = 0;
     this.gameStatus = 'play';
-    this.tets = '4242' // тест
+
   }
 
   init() {
-    this.gamePlay.drawUi(this.gameState.levelName[this.level]);
+    this.gamePlay.drawUi(this.gameState.getLevel);
     if (this.currentCharactersPosition.length < 1) {
       this.getStartPosition();
     }
@@ -217,8 +216,8 @@ export default class GameController {
   /* eslint-enable */
 
   levelUpAll() {
-    this.level += 1;
-    if (this.level > 3) {
+    this.gameState.level += 1;
+    if (this.gameState.level > 3) {
       // eslint-disable-next-line
       alert('Победа!');
       this.gameStatus = 'stop';
@@ -226,7 +225,7 @@ export default class GameController {
     }
     this.levelUp(this.currentCharactersPosition);
 
-    this.gamePlay.drawUi(this.gameState.levelName[this.level]);
+    this.gamePlay.drawUi(this.gameState.getLevel());
     this.evilTeam = this.getEvilTeam();
     this.currentCharactersPosition = [...this.currentCharactersPosition, ...this.evilTeam];
     this.gamePlay.redrawPositions(this.currentCharactersPosition);
@@ -282,7 +281,6 @@ export default class GameController {
     this.positionToMove = null;
     this.positionToAttack = null;
     this.ai = new AI();
-    this.level = 0;
     this.gameStatus = 'play';
     this.init();
   }
@@ -306,7 +304,7 @@ export default class GameController {
       this.charSelected = data.charSelected;
       this.positionToMove = data.positionToMove;
       this.positionToAttack = data.positionToAttack;
-      this.level = data.level;
+      this.gameState.level = data.level;
       this.gameStatus = data.gameStatus;
 
       this.init();
