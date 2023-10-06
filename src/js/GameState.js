@@ -1,15 +1,15 @@
 export default class GameState {
-  constructor() {
-    this.counter = 0;
+  constructor () {
+    this.counter = 0
     this.level = 0
     this.gameStatus = 'play'
     this.levelName = {
       0: 'prairie',
       1: 'desert',
       2: 'arctic',
-      3: 'mountain',
-    };
-    this.turn = null;
+      3: 'mountain'
+    }
+    this.turn = null
     // prairie -> desert -> arctic -> mountain
   }
 
@@ -20,12 +20,13 @@ export default class GameState {
   }
 
   /* eslint-enable */
-  getTurn() {
-    this.counter += 1;
+  getTurn () {
+    this.counter += 1
     this.counter % 2 ? this.turn = 'player' : this.turn = 'ai'; // eslint-disable-line
-    return this.turn;
+    return this.turn
   }
-  getLevel(){
+
+  getLevel () {
     return this.levelName[this.level]
   }
 }

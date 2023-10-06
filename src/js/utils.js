@@ -22,52 +22,52 @@
  * calcTileType(7, 7); // 'left'
  * ```
  * */
-export function calcTileType(index, boardSize) {
+export function calcTileType (index, boardSize) {
   if (index >= boardSize * boardSize) {
-    throw new Error('Index out of range');
+    throw new Error('Index out of range')
   }
 
   switch (index) {
     case 0:
-      return 'top-left';
+      return 'top-left'
 
     case boardSize - 1:
-      return 'top-right';
+      return 'top-right'
 
     case (boardSize * (boardSize - 1)):
-      return 'bottom-left';
+      return 'bottom-left'
 
     case ((boardSize * boardSize) - 1):
-      return 'bottom-right';
+      return 'bottom-right'
 
     default:
 
       if (index > 0 && index < (boardSize - 1)) {
-        return 'top';
+        return 'top'
       } if (index > (boardSize * (boardSize - 1)) && index < (boardSize * boardSize) - 1) {
-        return 'bottom';
+        return 'bottom'
       } if ((index % boardSize) === (boardSize - 1) && index !== ((boardSize * boardSize) - 1)) {
-        return 'right';
+        return 'right'
       } if ((index % boardSize) === 0 && index !== (boardSize * (boardSize - 1))) {
-        return 'left';
+        return 'left'
       }
   }
 
-  return 'center';
+  return 'center'
 }
 
-export function calcHealthLevel(health) {
+export function calcHealthLevel (health) {
   if (health < 15) {
-    return 'critical';
+    return 'critical'
   }
 
   if (health < 50) {
-    return 'normal';
+    return 'normal'
   }
 
-  return 'high';
+  return 'high'
 }
 
-export function getTooltip(char) {
-  return `🎖${char.level} ⚔${char.attack} 🛡${char.defence} ❤${char.health}`;
+export function getTooltip (char) {
+  return `🎖${char.level} ⚔${char.attack} 🛡${char.defence} ❤${char.health}`
 }

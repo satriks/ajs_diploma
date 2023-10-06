@@ -2,7 +2,7 @@ const cursors = {
   auto: 'auto',
   pointer: 'pointer',
   crosshair: 'crosshair',
-  notallowed: 'not-allowed',
-};
+  notallowed: 'not-allowed'
+}
 
-export default cursors;
+export default cursors

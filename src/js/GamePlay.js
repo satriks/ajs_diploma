@@ -1,24 +1,24 @@
-import { calcHealthLevel, calcTileType } from './utils';
+import { calcHealthLevel, calcTileType } from './utils'
 
 export default class GamePlay {
-  constructor() {
-    this.boardSize = 8;
-    this.container = null;
-    this.boardEl = null;
-    this.cells = [];
-    this.cellClickListeners = [];
-    this.cellEnterListeners = [];
-    this.cellLeaveListeners = [];
-    this.newGameListeners = [];
-    this.saveGameListeners = [];
-    this.loadGameListeners = [];
+  constructor () {
+    this.boardSize = 8
+    this.container = null
+    this.boardEl = null
+    this.cells = []
+    this.cellClickListeners = []
+    this.cellEnterListeners = []
+    this.cellLeaveListeners = []
+    this.newGameListeners = []
+    this.saveGameListeners = []
+    this.loadGameListeners = []
   }
 
-  bindToDOM(container) {
+  bindToDOM (container) {
     if (!(container instanceof HTMLElement)) {
-      throw new Error('container is not HTMLElement');
+      throw new Error('container is not HTMLElement')
     }
-    this.container = container;
+    this.container = container
   }
 
   /**
@@ -26,8 +26,8 @@ export default class GamePlay {
    *
    * @param theme
    */
-  drawUi(theme) {
-    this.checkBinding();
+  drawUi (theme) {
+    this.checkBinding()
 
     this.container.innerHTML = `
       <div class="controls">
@@ -38,29 +38,29 @@ export default class GamePlay {
       <div class="board-container">
         <div data-id="board" class="board"></div>
       </div>
-    `;
+    `
 
-    this.newGameEl = this.container.querySelector('[data-id=action-restart]');
-    this.saveGameEl = this.container.querySelector('[data-id=action-save]');
-    this.loadGameEl = this.container.querySelector('[data-id=action-load]');
+    this.newGameEl = this.container.querySelector('[data-id=action-restart]')
+    this.saveGameEl = this.container.querySelector('[data-id=action-save]')
+    this.loadGameEl = this.container.querySelector('[data-id=action-load]')
 
-    this.newGameEl.addEventListener('click', (event) => this.onNewGameClick(event));
-    this.saveGameEl.addEventListener('click', (event) => this.onSaveGameClick(event));
-    this.loadGameEl.addEventListener('click', (event) => this.onLoadGameClick(event));
+    this.newGameEl.addEventListener('click', (event) => this.onNewGameClick(event))
+    this.saveGameEl.addEventListener('click', (event) => this.onSaveGameClick(event))
+    this.loadGameEl.addEventListener('click', (event) => this.onLoadGameClick(event))
 
-    this.boardEl = this.container.querySelector('[data-id=board]');
+    this.boardEl = this.container.querySelector('[data-id=board]')
 
-    this.boardEl.classList.add(theme);
+    this.boardEl.classList.add(theme)
     for (let i = 0; i < this.boardSize ** 2; i += 1) {
-      const cellEl = document.createElement('div');
-      cellEl.classList.add('cell', 'map-tile', `map-tile-${calcTileType(i, this.boardSize)}`);
-      cellEl.addEventListener('mouseenter', (event) => this.onCellEnter(event));
-      cellEl.addEventListener('mouseleave', (event) => this.onCellLeave(event));
-      cellEl.addEventListener('click', (event) => this.onCellClick(event));
-      this.boardEl.appendChild(cellEl);
+      const cellEl = document.createElement('div')
+      cellEl.classList.add('cell', 'map-tile', `map-tile-${calcTileType(i, this.boardSize)}`)
+      cellEl.addEventListener('mouseenter', (event) => this.onCellEnter(event))
+      cellEl.addEventListener('mouseleave', (event) => this.onCellLeave(event))
+      cellEl.addEventListener('click', (event) => this.onCellClick(event))
+      this.boardEl.appendChild(cellEl)
     }
 
-    this.cells = Array.from(this.boardEl.children);
+    this.cells = Array.from(this.boardEl.children)
   }
 
   /**
@@ -68,26 +68,26 @@ export default class GamePlay {
    *
    * @param positions array of PositionedCharacter objects
    */
-  redrawPositions(positions) {
+  redrawPositions (positions) {
     for (const cell of this.cells) {
-      cell.innerHTML = '';
+      cell.innerHTML = ''
     }
 
     for (const position of positions) {
-      const cellEl = this.boardEl.children[position.position];
-      const charEl = document.createElement('div');
-      charEl.classList.add('character', position.character.type);
+      const cellEl = this.boardEl.children[position.position]
+      const charEl = document.createElement('div')
+      charEl.classList.add('character', position.character.type)
 
-      const healthEl = document.createElement('div');
-      healthEl.classList.add('health-level');
+      const healthEl = document.createElement('div')
+      healthEl.classList.add('health-level')
 
-      const healthIndicatorEl = document.createElement('div');
-      healthIndicatorEl.classList.add('health-level-indicator', `health-level-indicator-${calcHealthLevel(position.character.health)}`);
-      healthIndicatorEl.style.width = `${position.character.health}%`;
-      healthEl.appendChild(healthIndicatorEl);
+      const healthIndicatorEl = document.createElement('div')
+      healthIndicatorEl.classList.add('health-level-indicator', `health-level-indicator-${calcHealthLevel(position.character.health)}`)
+      healthIndicatorEl.style.width = `${position.character.health}%`
+      healthEl.appendChild(healthIndicatorEl)
 
-      charEl.appendChild(healthEl);
-      cellEl.appendChild(charEl);
+      charEl.appendChild(healthEl)
+      cellEl.appendChild(charEl)
     }
   }
 
@@ -96,8 +96,8 @@ export default class GamePlay {
    *
    * @param callback
    */
-  addCellEnterListener(callback) {
-    this.cellEnterListeners.push(callback);
+  addCellEnterListener (callback) {
+    this.cellEnterListeners.push(callback)
   }
 
   /**
@@ -105,8 +105,8 @@ export default class GamePlay {
    *
    * @param callback
    */
-  addCellLeaveListener(callback) {
-    this.cellLeaveListeners.push(callback);
+  addCellLeaveListener (callback) {
+    this.cellLeaveListeners.push(callback)
   }
 
   /**
@@ -114,8 +114,8 @@ export default class GamePlay {
    *
    * @param callback
    */
-  addCellClickListener(callback) {
-    this.cellClickListeners.push(callback);
+  addCellClickListener (callback) {
+    this.cellClickListeners.push(callback)
   }
 
   /**
@@ -123,8 +123,8 @@ export default class GamePlay {
    *
    * @param callback
    */
-  addNewGameListener(callback) {
-    this.newGameListeners.push(callback);
+  addNewGameListener (callback) {
+    this.newGameListeners.push(callback)
   }
 
   /**
@@ -132,8 +132,8 @@ export default class GamePlay {
    *
    * @param callback
    */
-  addSaveGameListener(callback) {
-    this.saveGameListeners.push(callback);
+  addSaveGameListener (callback) {
+    this.saveGameListeners.push(callback)
   }
 
   /**
@@ -141,91 +141,91 @@ export default class GamePlay {
    *
    * @param callback
    */
-  addLoadGameListener(callback) {
-    this.loadGameListeners.push(callback);
+  addLoadGameListener (callback) {
+    this.loadGameListeners.push(callback)
   }
 
-  onCellEnter(event) {
-    event.preventDefault();
-    const index = this.cells.indexOf(event.currentTarget);
-    this.cellEnterListeners.forEach((o) => o.call(null, index));
+  onCellEnter (event) {
+    event.preventDefault()
+    const index = this.cells.indexOf(event.currentTarget)
+    this.cellEnterListeners.forEach((o) => o.call(null, index))
   }
 
-  onCellLeave(event) {
-    event.preventDefault();
-    const index = this.cells.indexOf(event.currentTarget);
-    this.cellLeaveListeners.forEach((o) => o.call(null, index));
+  onCellLeave (event) {
+    event.preventDefault()
+    const index = this.cells.indexOf(event.currentTarget)
+    this.cellLeaveListeners.forEach((o) => o.call(null, index))
   }
 
-  onCellClick(event) {
-    const index = this.cells.indexOf(event.currentTarget);
-    this.cellClickListeners.forEach((o) => o.call(null, index));
+  onCellClick (event) {
+    const index = this.cells.indexOf(event.currentTarget)
+    this.cellClickListeners.forEach((o) => o.call(null, index))
   }
 
-  onNewGameClick(event) {
-    event.preventDefault();
-    this.newGameListeners.forEach((o) => o.call(null));
+  onNewGameClick (event) {
+    event.preventDefault()
+    this.newGameListeners.forEach((o) => o.call(null))
   }
 
-  onSaveGameClick(event) {
-    event.preventDefault();
-    this.saveGameListeners.forEach((o) => o.call(null));
+  onSaveGameClick (event) {
+    event.preventDefault()
+    this.saveGameListeners.forEach((o) => o.call(null))
   }
 
-  onLoadGameClick(event) {
-    event.preventDefault();
-    this.loadGameListeners.forEach((o) => o.call(null));
+  onLoadGameClick (event) {
+    event.preventDefault()
+    this.loadGameListeners.forEach((o) => o.call(null))
   }
 
-  static showError(message) {
+  static showError (message) {
     alert(message); // eslint-disable-line
   }
 
-  static showMessage(message) {
+  static showMessage (message) {
     alert(message); // eslint-disable-line
   }
 
-  selectCell(index, color = 'yellow') {
-    this.deselectCell(index);
-    this.cells[index].classList.add('selected', `selected-${color}`);
+  selectCell (index, color = 'yellow') {
+    this.deselectCell(index)
+    this.cells[index].classList.add('selected', `selected-${color}`)
   }
 
-  deselectCell(index) {
-    const cell = this.cells[index];
+  deselectCell (index) {
+    const cell = this.cells[index]
     cell.classList.remove(...Array.from(cell.classList)
-      .filter((o) => o.startsWith('selected')));
+      .filter((o) => o.startsWith('selected')))
   }
 
-  showCellTooltip(message, index) {
-    this.cells[index].title = message;
+  showCellTooltip (message, index) {
+    this.cells[index].title = message
   }
 
-  hideCellTooltip(index) {
-    this.cells[index].title = '';
+  hideCellTooltip (index) {
+    this.cells[index].title = ''
   }
 
-  showDamage(index, damage) {
+  showDamage (index, damage) {
     return new Promise((resolve) => {
-      const cell = this.cells[index];
-      const damageEl = document.createElement('span');
-      damageEl.textContent = damage;
-      damageEl.classList.add('damage');
-      cell.appendChild(damageEl);
+      const cell = this.cells[index]
+      const damageEl = document.createElement('span')
+      damageEl.textContent = damage
+      damageEl.classList.add('damage')
+      cell.appendChild(damageEl)
 
       damageEl.addEventListener('animationend', () => {
-        cell.removeChild(damageEl);
-        resolve();
-      });
-    });
+        cell.removeChild(damageEl)
+        resolve()
+      })
+    })
   }
 
-  setCursor(cursor) {
-    this.boardEl.style.cursor = cursor;
+  setCursor (cursor) {
+    this.boardEl.style.cursor = cursor
   }
 
-  checkBinding() {
+  checkBinding () {
     if (this.container === null) {
-      throw new Error('GamePlay not bind to DOM');
+      throw new Error('GamePlay not bind to DOM')
     }
   }
 }
