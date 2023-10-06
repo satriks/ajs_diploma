@@ -24,7 +24,7 @@ export default class GameController {
     this.positionToMove = null;
     this.positionToAttack = null;
     this.ai = new AI();
-    this.gameStatus = 'play';
+    // this.gameStatus = 'play';
 
   }
 
@@ -45,7 +45,7 @@ export default class GameController {
 
   onCellClick(index) {
     this.checkTeam();
-    if (this.gameStatus !== 'stop') {
+    if (this.gamePlay.gameStatus !== 'stop') {
       if (this.gamePlay.cells[index].childNodes.length) {
         const char = this.currentCharactersPosition.filter((el) => el.position === index)[0];
         // Добрый персонаж
@@ -99,7 +99,7 @@ export default class GameController {
 
   onCellEnter(index) {
     this.checkTeam();
-    if (this.gameStatus !== 'stop') {
+    if (this.gamePlay.gameStatus !== 'stop') {
       if (this.gamePlay.cells[index].childNodes.length) {
         const message = getTooltip(this.currentCharactersPosition.filter((el) => el.position === index)[0].character);
 
@@ -136,7 +136,7 @@ export default class GameController {
   onCellLeave(index) {
     this.checkTeam();
 
-    if (this.gameStatus !== 'stop') {
+    if (this.gamePlay.gameStatus !== 'stop') {
       this.gamePlay.hideCellTooltip(index);
       this.gamePlay.setCursor('auto');
       if (this.charSelected) {
@@ -163,7 +163,7 @@ export default class GameController {
     return res;
   }
   /* eslint-enable */
-
+//Team
   getEvilTeam() {
     const evilHeroes = [Daemon, Vampire, Undead];
     const evilTeam = generateTeam(evilHeroes, 4, 3);
@@ -178,7 +178,7 @@ export default class GameController {
     const evilTeamPositions = evilTeam.characters.map((el) => new PositionedCharacter(el, evilPosition.pop()));
     return evilTeamPositions;
   }
-
+//Team
   getGoodTeam() {
     const goodHeroes = [Swordsman, Magician, Bowman];
     const goodTeam = generateTeam(goodHeroes, 4, 3);
@@ -186,13 +186,13 @@ export default class GameController {
     const goodTeamPositions = goodTeam.characters.map((el) => new PositionedCharacter(el, goodPosition.pop()));
     return goodTeamPositions;
   }
-
+//Team / State
   getStartPosition() {
     this.goodTeam = this.getGoodTeam();
     this.evilTeam = this.getEvilTeam();
     this.currentCharactersPosition = [...this.goodTeam, ...this.evilTeam];
   }
-
+// State / Team
   levelUp(heros = this.currentCharactersPosition) {
     let heroes = heros;
     if (heroes.constructor === PositionedCharacter) {
@@ -214,13 +214,13 @@ export default class GameController {
     });
   }
   /* eslint-enable */
-
+// State / Team
   levelUpAll() {
     this.gameState.level += 1;
     if (this.gameState.level > 3) {
       // eslint-disable-next-line
       alert('Победа!');
-      this.gameStatus = 'stop';
+      this.gamePlay.gameStatus = 'stop';
       return;
     }
     this.levelUp(this.currentCharactersPosition);
@@ -230,17 +230,17 @@ export default class GameController {
     this.currentCharactersPosition = [...this.currentCharactersPosition, ...this.evilTeam];
     this.gamePlay.redrawPositions(this.currentCharactersPosition);
   }
-
+// State / Team
   characterDeath(char) {
     this.currentCharactersPosition = this.currentCharactersPosition.filter((el) => el.position !== char.position);
     this.goodTeam = this.goodTeam.filter((el) => el.position !== char.position);
     this.evilTeam = this.evilTeam.filter((el) => el.position !== char.position);
     this.gamePlay.redrawPositions(this.currentCharactersPosition);
   }
-
+// State 
   enemyTurn() {
     this.checkTeam();
-    if (this.gameStatus !== 'stop') {
+    if (this.gamePlay.gameStatus !== 'stop') {
       // ход противника
       const turn = this.ai.turn(this.currentCharactersPosition);
       if (turn.type === 'attack') {
@@ -281,7 +281,7 @@ export default class GameController {
     this.positionToMove = null;
     this.positionToAttack = null;
     this.ai = new AI();
-    this.gameStatus = 'play';
+    this.gamePlay.gameStatus = 'play';
     this.init();
   }
 
@@ -305,26 +305,26 @@ export default class GameController {
       this.positionToMove = data.positionToMove;
       this.positionToAttack = data.positionToAttack;
       this.gameState.level = data.gameState.level;
-      this.gameStatus = data.gameStatus;
+      this.gamePlay.gameStatus = data.gamePlay.gameStatus;
 
       this.init();
     } catch (err) {
       GamePlay.showError(err);
     }
   }
-
+// State
   checkTeam() {
-    if (this.gameStatus !== 'stop') {
+    if (this.gamePlay.gameStatus !== 'stop') {
       if (this.evilTeam.length === 0) {
         this.levelUpAll();
       }
 
       if (this.goodTeam.length === 0) {
-        this.gameStatus = 'stop';
+        this.gamePlay.gameStatus = 'stop';
       }
     }
   }
-
+// State / Team
   updateTeam() {
     this.evilTeam = this.currentCharactersPosition.filter((el) => ['undead', 'vampire', 'daemon'].includes(el.character.type));
     this.goodTeam = this.currentCharactersPosition.filter((el) => ['swordsman', 'magician', 'bowman'].includes(el.character.type));

@@ -2,6 +2,7 @@ export default class GameState {
   constructor() {
     this.counter = 0;
     this.level = 0
+    this.gameStatus = 'play'
     this.levelName = {
       0: 'prairie',
       1: 'desert',
