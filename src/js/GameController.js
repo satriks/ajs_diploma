@@ -29,7 +29,7 @@ export default class GameController {
   }
 
   init() {
-    this.gamePlay.drawUi(this.gameState.getLevel);
+    this.gamePlay.drawUi(this.gameState.getLevel());
     if (this.currentCharactersPosition.length < 1) {
       this.getStartPosition();
     }
@@ -304,7 +304,7 @@ export default class GameController {
       this.charSelected = data.charSelected;
       this.positionToMove = data.positionToMove;
       this.positionToAttack = data.positionToAttack;
-      this.gameState.level = data.level;
+      this.gameState.level = data.gameState.level;
       this.gameStatus = data.gameStatus;
 
       this.init();
